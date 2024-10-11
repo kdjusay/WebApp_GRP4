@@ -1,0 +1,10 @@
+/* Add your styles here */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.logo-size{
+    length: 40px;
+    width: 40px;
+}
