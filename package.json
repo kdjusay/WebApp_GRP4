@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "finalwebsystem": "file:"
+    "finalwebsystem": "file:",
+    "flowbite": "^2.5.2"
   },
   "name": "finalwebsystem",
   "version": "1.0.0",
