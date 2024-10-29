@@ -1143,6 +1143,15 @@ input:checked + .toggle-bg {
   grid-column: span 12 / span 12;
 }
 
+.m-10 {
+  margin: 2.5rem;
+}
+
+.mx-5 {
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -1164,6 +1173,10 @@ input:checked + .toggle-bg {
 
 .mb-1 {
   margin-bottom: 0.25rem;
+}
+
+.mb-10 {
+  margin-bottom: 2.5rem;
 }
 
 .mb-12 {
@@ -1192,14 +1205,6 @@ input:checked + .toggle-bg {
 
 .ml-3 {
   margin-left: 0.75rem;
-}
-
-.ml-96 {
-  margin-left: 24rem;
-}
-
-.mr-10 {
-  margin-right: 2.5rem;
 }
 
 .mr-2 {
@@ -1492,10 +1497,6 @@ input:checked + .toggle-bg {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
-.grid-rows-2 {
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -1534,10 +1535,6 @@ input:checked + .toggle-bg {
 
 .justify-between {
   justify-content: space-between;
-}
-
-.justify-items-center {
-  justify-items: center;
 }
 
 .gap-4 {
@@ -2173,6 +2170,61 @@ input:checked + .toggle-bg {
   width: 40px;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    /* Fade in effect */
+  }
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.in-view {
+  animation: fadeIn 3s forwards;
+  /* Fade in animation */
+}
+
+.fade-in-delay-1 {
+  animation-delay: 0.5s;
+  /* Delay for title */
+}
+
+.fade-in-delay-2 {
+  animation-delay: 1s;
+  /* Delay for paragraph */
+}
+
+.fade-in-delay-3 {
+  animation-delay: 1.5s;
+  /* Delay for button */
+}
+
+.cta-button {
+  background-color: #FF9800;
+  /* Orange */
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  /* Button transition */
+}
+
+.cta-button:hover {
+  transform: scale(1.1);
+  /* Scale up on hover */
+  background-color: #F57C00;
+  /* Darker orange on hover */
+}
+
 .hover\:border-\[\#FFCD88\]:hover {
   --tw-border-opacity: 1;
   border-color: rgb(255 205 136 / var(--tw-border-opacity));
@@ -2481,6 +2533,10 @@ input:checked + .toggle-bg {
     width: 50%;
   }
 
+  .sm\:w-auto {
+    width: auto;
+  }
+
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -2546,6 +2602,10 @@ input:checked + .toggle-bg {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
   .md\:space-y-6 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;
     margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
@@ -2608,3 +2668,5 @@ input:checked + .toggle-bg {
 .rtl\:space-x-reverse:where([dir="rtl"], [dir="rtl"] *) > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 1;
 }
+
+

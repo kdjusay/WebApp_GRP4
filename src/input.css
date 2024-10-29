@@ -8,3 +8,48 @@
     length: 40px;
     width: 40px;
 }
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {
+        opacity: 1; /* Fade in effect */
+    }
+}
+
+.fade-in {
+    opacity: 0;
+}
+
+.fade-in.in-view {
+    animation: fadeIn 3s forwards; /* Fade in animation */
+}
+
+.fade-in-delay-1 {
+    animation-delay: 0.5s; /* Delay for title */    
+}
+
+.fade-in-delay-2 {
+    animation-delay: 1s; /* Delay for paragraph */
+}
+
+.fade-in-delay-3 {
+    animation-delay: 1.5s; /* Delay for button */
+}
+
+.cta-button {
+    background-color: #FF9800; /* Orange */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Button transition */
+}
+
+.cta-button:hover {
+    transform: scale(1.1); /* Scale up on hover */
+    background-color: #F57C00; /* Darker orange on hover */
+}
+
+

@@ -41,7 +41,7 @@
           Join LearnVerse Today
         </p>
         <a href="#home"> 
-          <button type="button"  class="w-1/2  text-white bg-gradient-to-r from-orange-300 via-orange-400 to-orange-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Get Started</button>
+          <button type="button"  class="cta-button w-1/2  text-white bg-gradient-to-r from-orange-300 via-orange-400 to-orange-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Get Started</button>
         </a>
         
         <!-- onclick="location.href='#why'" from button-->
@@ -53,7 +53,7 @@
 
 <!--  WHY USE LEARN VERSE SECTION-->
 
-  <section class="flex flex-col-reverse justify-center sm:flex-row p-6 items-center gap-8 mb-12 my-12" id="home">
+  <section class="flex flex-col-reverse justify-center sm:flex-row p-6 items-center gap-8 mb-12 my-12 animate " id="home">
     <article class="sm:w-1/2">
       <h2 class="max-w-lg text-5xl font-bold text-center sm:text-5sl sm:text-center text-slate-700 dark:text-white">
         Why use LearnVerse?
@@ -68,29 +68,42 @@
     <hr class="mx-auto bg-black dark:bg-white w-1/2">
 
 <!--  Save media on the Fly SECTION-->
-<section class="flex flex-col-reverse justify-center sm:flex-row-reverse p-6 gap-8 mb-12 my-12">
-  <article class="sm:w-1/2">
-    <h2 class=" text-5xl font-bold text-right sm:text-5xl sm:text-right text-slate-700 dark:text-white">
+<section class="flex flex-col-reverse justify-between sm:flex-row-reverse p-6 items-center gap-8 mb-12 my-12" id="home">
+  <article class="sm:w-auto">
+    <h2 class="max-w-lg text-5xl font-bold text-center sm:text-5sl sm:text-center text-slate-700 dark:text-white">
       Save Media on the fly
     </h2>
-    <p class=" ml-96 text-2xl mt-4 text-right sm:text-right text-slate-500 dark:text-slate-400">
-      Streamline your workflow with our robust media storage solution. Easily upload, organize, and access all your documents, images, and videos from a centralized platform. Our secure cloud-based storage ensures your files are always safe and accessible, no matter where you go. Collaborate seamlessly with your team by sharing media directly, and enjoy the convenience of freeing up space on your devices. Experience the future of media management today.
+    <p class="max-w-md text-2xl mt-4 text-right sm:text-right text-slate-500 dark:text-slate-400 p-6">
+      Streamline your workflow with our robust media storage solution. Easily upload, organize, and access all your documents, images, and videos from a centralized platform. Our secure cloud-based storage ensures your files are always safe and accessible, no matter where you go. Collaborate seamlessly with your team by sharing media directly, and enjoy the convenience of freeing up space on your devices. Experience the future of media management today. 
     </p>
   </article>
-  <img src="/src/pictures/LP2.jpg" alt="Studying" class="mb-6 rounded-full w-2/5 h-2/5 mr-10">
+  <img src="/src/pictures/LP2.jpg" alt="Studying" class="mb-6 rounded-full w-2/5 h-2/5 object-right">
 
 </section>
+
 <hr class="mx-auto bg-black dark:bg-white w-1/2">
     
-<section id="features-edit" class="p-6 my-12 grid grid-cols-3 grid-rows-2 justify-items-center">
-        <img src="/src/pictures/LP3-1.jpg" alt="Sheet2" class="rounded-full h-64 w-64">
-      <h2 class="text-4xl font-bold self-center sm:text-5xl mb-6 text-slate-900 dark:text-white">
-        Quickly Edit
-      </h2>
-      <img src="/src/pictures/LP3-2.jpg" alt="Sheet2" class="rounded-full h-64 w-64">
-      <div class="text-2xl text-slate-500">Docs</div>
-      <div class="text-2xl text-slate-500">Collaborate effortlessly and streamline your workflow with our advanced document editing tools. Create, edit, and share documents in real-time, no matter where you are. Our intuitive interface makes it easy to format text, insert images, and add tables. Work together with your team on shared documents and track changes to see who's made what updates. Experience the future of document editing today.</div>
-      <div class="text-2xl text-slate-500">Spreadsheets</div>
+<section id="features-edit" class="flex flex-col p-6 my-12 justify-between items-center sm:flex-row md:flex-row">
+  <div class="m-10">
+    <img src="/src/pictures/LP3-1.jpg" alt="Sheet2" class="rounded-full h-64 w-64 mb-10">
+    <div class="text-2xl text-slate-500 text-center">Docs</div>
+  </div>
+  <div class="w-1/2 mx-5 ">
+    <h2 class="text-4xl font-bold sm:text-5xl mb-6 text-slate-900 dark:text-white text-center">
+      Quickly Edit
+    </h2>
+    <div class="text-sm text-slate-500 sm:text-2xl">Collaborate effortlessly and streamline your workflow with our advanced document editing tools. Create, edit, and share documents in real-time, no matter where you are. Our intuitive interface makes it easy to format text, insert images, and add tables. Work together with your team on shared documents and track changes to see who's made what updates. Experience the future of document editing today.</div>
+  </div>
+  <div class="m-10">
+    <img src="/src/pictures/LP3-2.jpg" alt="Sheet2" class="rounded-full h-64 w-64 mb-10">
+    <p class="text-2xl text-slate-500 text-center">Spreadsheets</p>
+  </div>
+      
+      
+      
+      
+      
+      
 </section>
   </main>
 
@@ -98,6 +111,7 @@
 <!--  <div class="bg-emerald-500 w-52 h-52 rounded-full shadow-2xl grid place-content-center"> </div> -->
  
 <script src="src/script.js"></script>
+<script src="src/anim.js"></script>
 </body>
 <!--FOOTER -->
 <footer class="bg-gray-900 text-gray-200">
