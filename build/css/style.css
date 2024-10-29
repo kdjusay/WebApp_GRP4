@@ -2185,7 +2185,7 @@ input:checked + .toggle-bg {
   opacity: 0;
 }
 
-.in-view {
+.fade-in.in-view {
   animation: fadeIn 3s forwards;
   /* Fade in animation */
 }
