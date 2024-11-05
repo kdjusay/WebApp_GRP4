@@ -1,9 +1,8 @@
-window.onLoad=function() {
     const login = document.getElementById("loginForm");
-
+    
     login.addEventListener("DOMContentLoaded", (event) => {
         event.preventDefault();
-    
+        
         const emailInput = document.getElementById("email");
         const passInput = document.getElementById("password")
     
@@ -13,7 +12,8 @@ window.onLoad=function() {
         console.log(email + "   " + password);
     
         if (email == "admin@admin.com" && password == "admin") {
-            window.location.href = "dashboard.html";
+            
+            window.location.href = "index.html";
         } else {
             alert("Why is it wrong");
         }
@@ -21,4 +21,3 @@ window.onLoad=function() {
     
     });
     
-}
