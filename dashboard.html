@@ -115,17 +115,18 @@
 <div class="p-4 inset-0 sm:ml-64">
    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-28">
       <p>Collapsible Set:</p>
-            <button class="collapsible">Open Section 1</button>
-               <div class="content">
+            <button data-target="content1" class="collapsible">Open Section 1</button>
+               <div id="content1" class="content">
                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                </div>
 
 
                <p>Nested Collapsible Set:</p>
-            <button class="collapsible">Open Section 1</button>
-               <div class="content">
-                  <button class="collapsible">Open Section 1</button>
-                     <div class="content">
+            <button data-target="content2" class="collapsible">Open Section 1</button>
+               <div id="content2" class="content">
+
+                  <button data-target="content3" class="collapsible">Open Section 2</button>
+                     <div id="content3" class="content">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                      </div>
                </div>

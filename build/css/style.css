@@ -2236,6 +2236,10 @@ html {
   background-color: #f1f1f1;
 }
 
+.content.active {
+  max-height: 200px
+}
+
 .logo-size{
   height: 40px;
   width: 40px;

@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	  entries.forEach(entry => {
 		if (entry.isIntersecting) {
 		  entry.target.classList.add('in-view');
-          console.log("TRIGGERERERE")
 		  return;
 		}
 		//entry.target.classList.remove('in-view');
