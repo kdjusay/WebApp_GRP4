@@ -57,7 +57,7 @@
       <div class="px-3 top-0 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-center">
           <button class="hover:bg-orange-700 hover:text-white rounded py-2 px-4">Home</button>
-          <button class="hover:bg-orange-700 hover:text-white rounded py-2 px-4">Documents</button>
+          <button class="hover:bg-orange-700 hover:text-white rounded py-2 px-4" onclick="myFunction()" >Documents</button>
           <button class="hover:bg-orange-700 hover:text-white rounded py-2 px-4">Transcript</button>
           <button class="hover:bg-orange-700 hover:text-white rounded py-2 px-4">Account</button>
         </div>
@@ -71,8 +71,8 @@
       </svg>
    </button>
 
-   <aside id="logo-sidebar" class="fixed top-36 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+   <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <div class="h-full px-3 py-36 overflow-y-auto bg-gray-50 dark:bg-gray-800">
        
        <ul class="space-y-2 font-medium">
           <li>
@@ -159,7 +159,7 @@
  </aside>
 
     <div class="relative h-screen flex items-end z-0">
-      <iframe name="theFrame" class="absolute bottom-0 right-0 w-full sm:w-96 h-full sm:h-64" style="height: 85%; width: 85%;" src="/src/subjects/language.html"></iframe>
+      <iframe id="theFrame" name="theFrame" class="absolute bottom-0 right-0 w-full sm:w-96 h-full sm:h-64" style="height: 85%; width: 85%;" src="/src/subjects/language.html"></iframe>
     </div>
     
 
