@@ -8,6 +8,10 @@ html {
     scroll-behavior: smooth;
 }
 
+.alwaystop {
+    z-index: 9999;
+}
+
 .collapsible {
     background-color: #777;
     color: white;
