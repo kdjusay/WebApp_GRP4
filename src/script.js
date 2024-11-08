@@ -1,6 +1,10 @@
-function myFunction() {
-  document.getElementById("theFrame").src = "/src/navbar/documents.html";
+function todocuments() {
+document.getElementById("theFrame").src = "/src/navbar/documents.html";
 }
+
+function totranscript() {
+  document.getElementById("theFrame").src = "/src/navbar/transcript.html";
+  }
 
 function toggleContent(button) {
   const contentId = button.getAttribute('data-target');
