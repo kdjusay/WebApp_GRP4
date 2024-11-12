@@ -2292,6 +2292,8 @@ html {
 
 .sideBarBorder {
   border-width: 5px;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .collapsible {
