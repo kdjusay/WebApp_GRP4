@@ -1,31 +1,17 @@
-const observer = new MutationObserver((mutations) => {
-  mutations.forEach(mutation => {
-    if (mutation.type === 'childList') {
-      const iframe = document.getElementById('theFrame');
-      if (iframe) {
-        iframe.addEventListener('load', updateAnchorClass);
-        updateAnchorClass();
-        observer.disconnect(); // Stop observing after the iframe is found
-      }
-    }
+const mathLinks = document.querySelectorAll('a[id^="subjectB"]');
+
+mathLinks.forEach(link => {
+  link.addEventListener('click', () => {
+
+    // Remove the "border" class from all links
+    mathLinks.forEach(link => link.classList.remove('sideBarBorder'));
+
+    link.classList.add('sideBarBorder');
   });
 });
 
-observer.observe(document.body, { childList: true, subtree: true });
 
-function updateAnchorClass() {
-  const iframe = document.getElementById("theFrame");
-  const currentSrc = iframe.src;
 
-  const anchors = document.querySelectorAll("a[target='theFrame']");
-  anchors.forEach(anchor => {
-    if (anchor.href === currentSrc) {
-      anchor.classList.add("border");
-    } else {
-      anchor.classList.remove("border");
-    }
-  });
-}
 
 function todocuments() {
 document.getElementById("theFrame").src = "/src/navbar/documents.html";

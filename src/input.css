@@ -12,6 +12,10 @@ html {
     z-index: 9999;
 }
 
+.sideBarBorder {
+    border-width: 5px;
+}
+
 .collapsible {
     background-color: #777;
     color: white;

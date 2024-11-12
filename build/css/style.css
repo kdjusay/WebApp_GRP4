@@ -2290,6 +2290,10 @@ html {
   z-index: 9999;
 }
 
+.sideBarBorder {
+  border-width: 5px;
+}
+
 .collapsible {
   background-color: #777;
   color: white;
@@ -2413,6 +2417,11 @@ html {
   background-color: rgb(254 236 220 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-orange-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 90 31 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-orange-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(180 52 3 / var(--tw-bg-opacity));
@@ -2421,11 +2430,6 @@ html {
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-orange-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 90 31 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-gradient-to-br:hover {
