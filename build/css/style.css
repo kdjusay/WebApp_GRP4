@@ -2845,11 +2845,6 @@ html {
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
-
-  .sm\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
 }
 
 @media (min-width: 768px) {
