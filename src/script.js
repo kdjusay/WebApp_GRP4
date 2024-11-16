@@ -17,6 +17,9 @@ document.getElementById("theFrame").src = "/src/navbar/documents.html";
 function totranscript() {
 document.getElementById("theFrame").src = "/src/navbar/transcript.html";
 }
+function tocourses() {
+document.getElementById("theFrame").src = "/src/navbar/courses.html";
+}
 
 function toaccount(){
   document.getElementById("theFrame").src = "/src/navbar/account.html";

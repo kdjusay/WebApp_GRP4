@@ -11,7 +11,7 @@ const login = document.getElementById("loginForm");
 
     console.log(email + "   " + password);
 
-    if (email == "admin@admin.com" && password == "admin") {
+    if (email == "student@learnv.com" && password == "student") {
         window.location.href = "dashboard.html";
     } else {
         alert("Why is it wrong");
