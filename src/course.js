@@ -26,7 +26,7 @@ function setupCoursesPage() {
             localStorage.setItem('removeLiId', itemId);
             
             // Redirect to dashboard.html
-            window.location.href = 'dashboard.html';
+            window.location.href = "courses.html";
         });
     });
 }
