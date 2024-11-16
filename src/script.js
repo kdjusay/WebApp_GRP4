@@ -10,6 +10,8 @@ mathLinks.forEach(link => {
   });
 });
 
+
+
 function todocuments() {
 document.getElementById("theFrame").src = "/src/navbar/documents.html";
 }
