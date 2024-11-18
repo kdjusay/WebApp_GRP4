@@ -14,7 +14,7 @@ const login = document.getElementById("loginForm");
     if (email == "student@learnv.com" && password == "student") {
         window.location.href = "dashboard.html";
     } else {
-        alert("Why is it wrong");
+        alert("Wrong user Credentials");
     }
 
 
