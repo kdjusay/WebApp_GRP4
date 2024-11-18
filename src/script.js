@@ -10,7 +10,29 @@ mathLinks.forEach(link => {
   });
 });
 
+function updateall(fname, lname, email, pass) {
 
+  const fnamePlaceholder = document.getElementById(fname);
+  const lnamePlaceholder = document.getElementById(lname);
+  const emailPlaceholder = document.getElementById(email);
+  const passPlaceholder = document.getElementById(pass);
+
+  const fvalue = fnamePlaceholder.value;
+  const lvalue = lnamePlaceholder.value;
+  const evalue = emailPlaceholder.value;
+  const pvalue = passPlaceholder.value;
+
+  fnamePlaceholder.placeholder = fvalue;
+  lnamePlaceholder.placeholder = lvalue;
+  emailPlaceholder.placeholder = evalue;
+  passPlaceholder.placeholder = pvalue;
+
+  fnamePlaceholder.value = "";
+  lnamePlaceholder.value = "";
+  emailPlaceholder.value = "";
+  passPlaceholder.value = "";
+
+}
 
 function todocuments() {
 document.getElementById("theFrame").src = "/src/navbar/documents.html";
