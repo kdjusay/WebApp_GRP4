@@ -3065,4 +3065,10 @@ html {
   text-align: right;
 }
 
+.navbar ul{
+  list-style-type: none;
+  background-color: #F57C00;
+  padding: 0px;
+  margin: 0px;
 
+}

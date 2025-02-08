@@ -1,7 +1,13 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
     "finalwebsystem": "file:",
-    "flowbite": "^2.5.2"
+    "flowbite": "^2.5.2",
+    "mongodb": "^6.13.0",
+    "mongoose": "^8.10.0"
   },
   "name": "finalwebsystem",
   "version": "1.0.0",
@@ -18,12 +24,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.8"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kdjusay/WebApp_GRP4.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kdjusay/WebApp_GRP4/issues"
+  },
+  "homepage": "https://github.com/kdjusay/WebApp_GRP4#readme",
+  "description": ""
 }
