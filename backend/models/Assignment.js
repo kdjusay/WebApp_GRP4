@@ -7,3 +7,13 @@ const assignmentSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model("Assignment", assignmentSchema);
+
+assignmentSchema.set("toJSON", {
+    transform: (doc, ret) => {
+      delete ret.createdAt;
+      delete ret.updatedAt;
+      return ret;
+    }
+  });
+  
+
