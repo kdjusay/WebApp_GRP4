@@ -5,12 +5,35 @@ const multer = require("multer");
 const cors = require("cors");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3"); // AWS SDK v3
 
+const session = require("express-session");
+const passport = require("passport");
+require("./config/auth"); // Import Passport config
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Check if required env variables are set
-if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_S3_BUCKET || !process.env.AWS_REGION || !process.env.MONGO_URI) {
+// ✅ Session Middleware (for Passport)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// ✅ Check for required environment variables
+if (
+  !process.env.AWS_ACCESS_KEY_ID ||
+  !process.env.AWS_SECRET_ACCESS_KEY ||
+  !process.env.AWS_S3_BUCKET ||
+  !process.env.AWS_REGION ||
+  !process.env.MONGO_URI ||
+  !process.env.GOOGLE_CLIENT_ID ||
+  !process.env.GOOGLE_CLIENT_SECRET
+) {
   console.error("❌ Missing required environment variables. Check your .env file.");
   process.exit(1);
 }
@@ -107,6 +130,41 @@ app.get("/files/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "❌ Error retrieving file", error });
   }
+});
+
+// ✅ Google OAuth Routes
+
+// Start Google OAuth flow
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// OAuth callback route
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("/profile"); // Redirect to profile after login
+  }
+);
+
+// Profile route (only for authenticated users)
+app.get("/profile", (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.redirect("/auth/google");
+  }
+  res.json({ message: `Hello, ${req.user.displayName}!`, user: req.user });
+});
+
+// Logout route
+app.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
 });
 
 // ✅ Start Server

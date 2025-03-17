@@ -1,11 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String
+const UserSchema = new mongoose.Schema({
+  googleId: { type: String, required: true, unique: true },
+  displayName: String,
+  firstName: String,
+  lastName: String,
+  email: { type: String, required: true, unique: true },
+  picture: String,
+  createdAt: { type: Date, default: Date.now },
 });
 
-// Prevent overwriting the model
-const User = mongoose.models.User || mongoose.model('User', userSchema);
-module.exports = User;
+module.exports = mongoose.model("User", UserSchema);
