@@ -1,23 +1,21 @@
-require('dotenv').config();
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const express = require("express");
+const { registerUser, loginUser } = require("../routes/authController"); // Use authController functions
+const authenticateUser = require("../middleware/authMiddleware"); // Import authentication middleware
 
-// Configure Passport with Google OAuth Strategy
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID, // Use environment variables
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:5000/auth/google/callback',
-}, (accessToken, refreshToken, profile, done) => {
-  console.log(profile); // Log user data for testing
-  return done(null, profile);
-}));
+const router = express.Router();
 
-// Serialize user for session storage
-passport.serializeUser((user, done) => {
-  done(null, user);
+// ✅ User Registration Route
+router.post("/register", registerUser);
+
+// ✅ User Login Route
+router.post("/login", loginUser);
+
+// ✅ Protected Route: Dashboard
+router.get("/dashboard", authenticateUser, (req, res) => {
+  res.json({
+    message: `Welcome to your dashboard, user ID: ${req.user.id}!`,
+    email: req.user.email,
+  });
 });
 
-// Deserialize user
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
+module.exports = router;
