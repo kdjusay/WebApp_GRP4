@@ -5,6 +5,7 @@ const session = require("express-session");
 const cors = require("cors");
 const { passport } = require("./config/auth");
 
+
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profile");
 
