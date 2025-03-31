@@ -1,14 +1,14 @@
+const express = require("express");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const express = require("express");
-const router = express.Router();
 const session = require("express-session");
 require("dotenv").config();
 
-// User Model (if using MongoDB)
 const User = require("../models/user"); // Adjust based on your project
 
-// Configure Passport with Google OAuth
+const router = express.Router();
+
+// ✅ Configure Passport Google OAuth Strategy
 passport.use(
   new GoogleStrategy(
     {
@@ -18,11 +18,13 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // Check if user exists in database
+        console.log("🔹 Google OAuth Callback Triggered:", profile.displayName);
+
+        // Check if user exists
         let user = await User.findOne({ googleId: profile.id });
 
         if (!user) {
-          // Create new user
+          console.log("🆕 New User Detected! Creating Profile...");
           user = new User({
             googleId: profile.id,
             name: profile.displayName,
@@ -35,18 +37,19 @@ passport.use(
 
         return done(null, user);
       } catch (error) {
+        console.error("❌ Error in Google Strategy:", error);
         return done(error, null);
       }
     }
   )
 );
 
-// Serialize user to session
+// ✅ Serialize User
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-// Deserialize user from session
+// ✅ Deserialize User
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
@@ -56,28 +59,28 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-// Google Login Route
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+// ✅ Google Login Route
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-// Google Callback Route
+// ✅ Google Callback Route
 router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login.html" }),
   (req, res) => {
+    console.log("✅ Google Authentication Successful");
     req.session.token = req.user.id; // Store session token
-    res.redirect("/index.html"); // Redirect to assignment manager
+    res.redirect("/index.html"); // Redirect to main dashboard
   }
 );
 
-// Logout Route
+// ✅ Logout Route
 router.get("/logout", (req, res) => {
   req.logout((err) => {
-    if (err) console.error(err);
+    if (err) console.error("❌ Logout Error:", err);
+    
     req.session.destroy(() => {
-      res.clearCookie("connect.sid"); // Remove session cookie
+      res.clearCookie("connect.sid", { path: "/" }); // Properly clear session cookie
+      console.log("👋 User Logged Out");
       res.redirect("/login.html");
     });
   });

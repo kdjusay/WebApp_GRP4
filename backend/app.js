@@ -4,17 +4,17 @@ const session = require("express-session");
 const cors = require("cors");
 const helmet = require("helmet");
 const passport = require("passport");
-require("./config/auth"); // Ensure strategies are loaded
+require("./config/auth"); // Ensure authentication strategies load
 const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
-const path = require("path"); // ✅ Added path module
+const path = require("path");
 
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profile");
 
 const app = express();
 
-// ✅ MongoDB Connection using Environment Variable
+// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -47,7 +47,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // ✅ Handle URL-encoded form data
+app.use(express.urlencoded({ extended: true }));
 
 // ✅ Session Middleware (MongoDB Session Store)
 app.use(session({
@@ -68,26 +68,20 @@ app.use(passport.session());
 // ✅ Serve Static Files (Frontend)
 app.use(express.static(path.join(__dirname, "public")));
 
+// ✅ Debugging: Check if Routes Load
+console.log("✅ Routes Loaded: /auth, /profile");
+
 // ✅ Routes
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);
 
-// ✅ Validation Route
-app.get("/validate", (req, res, next) => {
-  const { name } = req.query;
-  if (!name) {
-    const error = new Error("Name parameter is required");
-    error.status = 400;
-    return next(error);
-  }
-  res.send(`Hello, ${name}!`);
-});
-
-// ✅ Default Home Route (Serve Frontend)
+// ✅ Default Home Route (Redirect to Login or Serve Login Page)
 app.get("/", (req, res) => {
-  res.redirect("/auth/login");
+  const loginPath = path.join(__dirname, "public", "login.html");
+  res.sendFile(loginPath, (err) => {
+    if (err) res.redirect("/auth/login"); // Fallback to route-based login
+  });
 });
-
 
 // ✅ Handle Missing Routes (404)
 app.use((req, res) => {
@@ -100,4 +94,4 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message || "Internal Server Error" });
 });
 
-module.exports = app; // ✅ Export app for use in server.js
+module.exports = app; // ✅ Export for use in server.js
