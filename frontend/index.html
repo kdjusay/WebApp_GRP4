@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-2xl mx-auto bg-white p-6 shadow-md rounded-lg">
+        <h1 class="text-xl font-bold mb-4">Task Manager</h1>
+        
+        <!-- Task Form -->
+        <form id="task-form" class="mb-4">
+            <input type="text" id="task-title" placeholder="Task Title" class="border p-2 w-full rounded mb-2" required>
+            <textarea id="task-desc" placeholder="Task Description" class="border p-2 w-full rounded mb-2"></textarea>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Task</button>
+        </form>
+        
+        <!-- Task List -->
+        <ul id="task-list" class="space-y-2"></ul>
+    </div>
+    
+    <script src="script.js"></script> <!-- Link to external JS file -->
+</body>
+</html>

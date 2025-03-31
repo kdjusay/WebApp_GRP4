@@ -1,42 +1,53 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
-const session = require("express-session");
 const cors = require("cors");
-const { passport } = require("./config/auth");
+const mongoose = require("mongoose");
+const app = require("./app");
 
-
-const authRoutes = require("./routes/authRoutes");
-const profileRoutes = require("./routes/profile");
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// ✅ Session Middleware (for Google OAuth)
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+// ✅ Enable CORS for Frontend
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "http://localhost:5500",
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true,
+}));
 
 // ✅ MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ MongoDB Connected");
+  } catch (err) {
     console.error("❌ MongoDB Connection Error:", err);
     process.exit(1);
+  }
+};
+
+// ✅ Enforce HTTPS in Production
+if (process.env.NODE_ENV === "production") {
+  app.use((req, res, next) => {
+    if (req.headers["x-forwarded-proto"] !== "https") {
+      return res.redirect(`https://${req.headers.host}${req.url}`);
+    }
+    next();
   });
+}
 
-// ✅ Routes
-app.use("/auth", authRoutes);
-app.use("/profile", profileRoutes);
-
-// ✅ Start Server
+// ✅ Start Server after DB Connection
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+connectDB().then(() => {
+  const server = app.listen(PORT, () =>
+    console.log(`🚀 Server running on http://localhost:${PORT}`)
+  );
+
+  // ✅ Handle Graceful Shutdown
+  process.on("SIGINT", async () => {
+    console.log("\n🛑 Shutting down...");
+    server.close(() => {
+      console.log("✅ Server and Database disconnected");
+      process.exit(0);
+    });
+  });
+});
