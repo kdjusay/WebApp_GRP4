@@ -85,7 +85,7 @@ app.get("/validate", (req, res, next) => {
 
 // ✅ Default Home Route (Serve Frontend)
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
 // ✅ Handle Missing Routes (404)
