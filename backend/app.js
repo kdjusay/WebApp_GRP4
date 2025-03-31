@@ -4,8 +4,9 @@ const session = require("express-session");
 const cors = require("cors");
 const helmet = require("helmet");
 const { passport } = require("./config/auth");
-const MongoStore = require("connect-mongo"); 
+const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
+const path = require("path"); // ✅ Added path module
 
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profile");
@@ -27,11 +28,11 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'"],
-        objectSrc: ["'none'"], 
+        objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       },
     },
-    frameguard: { action: "deny" }, 
+    frameguard: { action: "deny" },
     referrerPolicy: { policy: "strict-origin-when-cross-origin" },
   })
 );
@@ -54,14 +55,17 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === "production", 
-    httpOnly: true, 
-    sameSite: "strict", 
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    sameSite: "strict",
   },
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// ✅ Serve Static Files (Frontend)
+app.use(express.static(path.join(__dirname, "public")));
 
 // ✅ Routes
 app.use("/auth", authRoutes);
@@ -78,9 +82,9 @@ app.get("/validate", (req, res, next) => {
   res.send(`Hello, ${name}!`);
 });
 
-// ✅ Default Home Route
+// ✅ Default Home Route (Serve Frontend)
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the API" });
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // ✅ Handle Missing Routes (404)
