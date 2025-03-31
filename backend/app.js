@@ -4,7 +4,7 @@ const session = require("express-session");
 const cors = require("cors");
 const helmet = require("helmet");
 const { passport } = require("./config/auth");
-const MongoStore = require("connect-mongo"); // MongoDB session store
+const MongoStore = require("connect-mongo"); 
 const mongoose = require("mongoose");
 
 const authRoutes = require("./routes/authRoutes");
@@ -12,55 +12,53 @@ const profileRoutes = require("./routes/profile");
 
 const app = express();
 
-// ✅ MongoDB connection setup for session store
-mongoose.connect("mongodb+srv://LearnVerse:learnverse01@cluster0.owqh1.mongodb.net/LearnVerse?retryWrites=true&w=majority", {
+// ✅ MongoDB Connection using Environment Variable
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => {
-  console.log("Connected to MongoDB successfully");
-}).catch((err) => {
-  console.error("MongoDB connection error:", err);
-});
+})
+.then(() => console.log("✅ MongoDB Connected"))
+.catch(err => console.error("❌ MongoDB Connection Error:", err));
 
-// ✅ Enhanced Security Middleware
+// ✅ Security Middleware
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "trusted-cdn.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "trusted-cdn.com"],
+        objectSrc: ["'none'"], 
+        upgradeInsecureRequests: [],
       },
     },
-    frameguard: { action: "deny" }, // Prevent clickjacking
-    referrerPolicy: { policy: "no-referrer" }, // Hide referrer data
-    xssFilter: true, // Protect against XSS attacks
+    frameguard: { action: "deny" }, 
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
   })
 );
 
 // ✅ CORS Configuration
-const corsOptions = {
+app.use(cors({
   origin: process.env.CLIENT_URL || "*",
   credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type, Authorization",
-};
-app.use(cors(corsOptions));
+}));
+
 app.use(express.json());
 
-// ✅ Session Middleware (MongoDB Session Store for Production)
-app.use(
-  session({
-    store: MongoStore.create({ mongoUrl: "mongodb://localhost/your-database-name" }), // MongoDB as session store
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === "production", // Secure cookies in production
-      httpOnly: true, // Prevent JavaScript access
-      sameSite: "strict", // Prevent CSRF
-    },
-  })
-);
+// ✅ Session Middleware (MongoDB Session Store)
+app.use(session({
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === "production", 
+    httpOnly: true, 
+    sameSite: "strict", 
+  },
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -72,12 +70,9 @@ app.use("/profile", profileRoutes);
 app.get("/validate", (req, res, next) => {
   const { name } = req.query;
   if (!name) {
-    const error = new Error("Name parameter is required");
-    error.status = 400;
-    next(error);
-  } else {
-    res.send(`Hello, ${name}!`);
+    return next(new Error("Name parameter is required"));
   }
+  res.send(`Hello, ${name}!`);
 });
 
 // ✅ Default Home Route
@@ -86,11 +81,11 @@ app.get("/", (req, res) => {
 });
 
 // ✅ Handle Missing Routes (404)
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
 });
 
-// ✅ Global Error Handling Middleware
+// ✅ Global Error Handler
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
   res.status(err.status || 500).json({ error: err.message || "Internal Server Error" });
