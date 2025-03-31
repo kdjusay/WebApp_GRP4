@@ -6,7 +6,7 @@ const path = require("path");
 const app = require("./app");
 
 // ✅ Middleware for JSON Parsing
-app.use(express.json()); // Ensure Express can handle JSON payloads
+app.use(express.json());
 
 // ✅ Enable CORS for Frontend
 app.use(cors({
@@ -25,6 +25,11 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+// ✅ Default Route (Redirect to Login)
+app.get("/", (req, res) => {
+  res.redirect("/auth/login");
+});
 
 // ✅ Serve Static Frontend Files (Only in Production)
 if (process.env.NODE_ENV === "production") {
