@@ -6,7 +6,7 @@ const session = require("express-session");
 require("dotenv").config();
 
 // User Model (if using MongoDB)
-const User = require("./models/User"); // Adjust based on your project
+const User = require("../models/user"); // Adjust based on your project
 
 // Configure Passport with Google OAuth
 passport.use(

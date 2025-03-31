@@ -3,7 +3,8 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const helmet = require("helmet");
-const { passport } = require("./config/auth");
+const passport = require("passport");
+require("./config/auth"); // Ensure strategies are loaded
 const MongoStore = require("connect-mongo");
 const mongoose = require("mongoose");
 const path = require("path"); // ✅ Added path module
