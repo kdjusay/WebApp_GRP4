@@ -1,80 +1,113 @@
 const API_URL = window.location.origin.includes("localhost")
-  ? "http://localhost:5000/tasks"
-  : "/tasks"; // Auto-switch for local & deployed
+  ? "http://localhost:5000/assignments"
+  : "/assignments"; // Auto-switch for local & deployed
 
-document.addEventListener("DOMContentLoaded", loadTasks);
+// Check if user is logged in
+document.addEventListener("DOMContentLoaded", function () {
+  const userToken = localStorage.getItem("token");
+  if (!userToken) {
+    window.location.href = "login.html"; // Redirect to login page if not logged in
+  } else {
+    loadAssignments();
+  }
+});
 
-document.getElementById("task-form").addEventListener("submit", async (e) => {
+// Handle assignment submission
+document.getElementById("assignment-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  
-  const title = document.getElementById("task-title").value.trim();
-  const description = document.getElementById("task-desc").value.trim();
 
-  if (!title) {
-    alert("Task title is required!");
+  const title = document.getElementById("assignment-title").value.trim();
+  const description = document.getElementById("assignment-desc").value.trim();
+  const dueDate = document.getElementById("due-date").value;
+
+  if (!title || !dueDate) {
+    alert("Title and Due Date are required!");
     return;
   }
 
   try {
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, description }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({ title, description, dueDate }),
     });
 
-    if (!response.ok) throw new Error("Failed to add task");
+    if (!response.ok) throw new Error("Failed to add assignment");
 
-    document.getElementById("task-form").reset();
-    loadTasks();
+    document.getElementById("assignment-form").reset();
+    loadAssignments();
   } catch (error) {
     console.error("❌ Error:", error.message);
-    alert("Error adding task!");
+    alert("Error adding assignment!");
   }
 });
 
-async function loadTasks() {
+// Load assignments from API
+async function loadAssignments() {
+  document.getElementById("loading").classList.remove("hidden"); // Show loading indicator
+
   try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Failed to load tasks");
+    const response = await fetch(API_URL, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    });
 
-    const tasks = await response.json();
-    const taskList = document.getElementById("task-list");
-    taskList.innerHTML = "";
+    if (!response.ok) throw new Error("Failed to load assignments");
 
-    if (tasks.length === 0) {
-      taskList.innerHTML = `<p class="text-gray-500 text-center">No tasks available.</p>`;
+    const assignments = await response.json();
+    const assignmentList = document.getElementById("assignment-list");
+    assignmentList.innerHTML = "";
+
+    if (assignments.length === 0) {
+      assignmentList.innerHTML = `<p class="text-gray-500 text-center">No assignments available.</p>`;
       return;
     }
 
-    tasks.forEach((task) => {
+    assignments.forEach((assignment) => {
       const li = document.createElement("li");
       li.className = "flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow";
 
       li.innerHTML = `
-        <span class="font-medium">${task.title}</span>
-        <button onclick="deleteTask('${task._id}')" class="bg-red-500 text-white px-3 py-1 rounded">
+        <div>
+          <span class="font-medium">${assignment.title}</span>
+          <p class="text-sm text-gray-600">Due: ${assignment.dueDate}</p>
+        </div>
+        <button onclick="deleteAssignment('${assignment._id}')" class="bg-red-500 text-white px-3 py-1 rounded">
           Delete
         </button>
       `;
 
-      taskList.appendChild(li);
+      assignmentList.appendChild(li);
     });
   } catch (error) {
     console.error("❌ Error:", error.message);
-    alert("Error loading tasks!");
+    alert("Error loading assignments!");
+  } finally {
+    document.getElementById("loading").classList.add("hidden"); // Hide loading indicator
   }
 }
 
-async function deleteTask(id) {
-  if (!confirm("Are you sure you want to delete this task?")) return;
+// Delete assignment
+async function deleteAssignment(id) {
+  if (!confirm("Are you sure you want to delete this assignment?")) return;
 
   try {
-    const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    if (!response.ok) throw new Error("Failed to delete task");
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    });
 
-    loadTasks();
+    if (!response.ok) throw new Error("Failed to delete assignment");
+
+    loadAssignments();
   } catch (error) {
     console.error("❌ Error:", error.message);
-    alert("Error deleting task!");
+    alert("Error deleting assignment!");
   }
 }

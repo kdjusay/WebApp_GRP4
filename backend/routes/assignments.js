@@ -5,28 +5,49 @@ const Assignment = require("../models/Assignment");
 // 📌 [GET] Fetch all assignments
 router.get("/", async (req, res) => {
     try {
-      const assignments = await Assignment.find();
-      res.json(assignments);
+        const assignments = await Assignment.find();
+        res.json(assignments);
     } catch (error) {
-      res.status(500).json({ message: "Server error" });
+        console.error("Error fetching assignments:", error);
+        res.status(500).json({ message: "Server error" });
     }
-  });
+});
 
-// 📌 [POST] Create an assignment
+// 📌 [POST] Create an assignment with error handling
 router.post("/", async (req, res) => {
-    const { title, description, dueDate } = req.body;
-    const newAssignment = new Assignment({ title, description, dueDate });
-    await newAssignment.save();
-    res.json(newAssignment);
+    try {
+        const { title, description, dueDate } = req.body;
+
+        // Validate input
+        if (!title || !dueDate) {
+            return res.status(400).json({ error: "Title and Due Date are required" });
+        }
+
+        const newAssignment = new Assignment({ title, description, dueDate });
+        await newAssignment.save();
+
+        res.status(201).json(newAssignment);
+    } catch (error) {
+        console.error("Error adding assignment:", error);
+        res.status(500).json({ error: "Failed to add assignment" });
+    }
 });
 
-// 📌 [DELETE] Remove an assignment
+// 📌 [DELETE] Remove an assignment with error handling
 router.delete("/:id", async (req, res) => {
-    await Assignment.findByIdAndDelete(req.params.id);
-    res.json({ message: "Assignment deleted" });
+    try {
+        const deletedAssignment = await Assignment.findByIdAndDelete(req.params.id);
+        if (!deletedAssignment) {
+            return res.status(404).json({ message: "Assignment not found" });
+        }
+        res.json({ message: "Assignment deleted" });
+    } catch (error) {
+        console.error("Error deleting assignment:", error);
+        res.status(500).json({ message: "Server error" });
+    }
 });
 
-// 📌 [PUT] Update an existing assignment
+// 📌 [PUT] Update an existing assignment with error handling
 router.put("/:id", async (req, res) => {
     try {
         const { title, description, dueDate } = req.body;
@@ -42,9 +63,9 @@ router.put("/:id", async (req, res) => {
 
         res.json(updatedAssignment);
     } catch (error) {
-        res.status(500).json({ message: "Server Error", error });
+        console.error("Error updating assignment:", error);
+        res.status(500).json({ message: "Server Error" });
     }
 });
-
 
 module.exports = router;
