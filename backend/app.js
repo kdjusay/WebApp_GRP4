@@ -26,7 +26,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "trusted-cdn.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
         objectSrc: ["'none'"], 
         upgradeInsecureRequests: [],
       },
@@ -41,10 +41,11 @@ app.use(cors({
   origin: process.env.CLIENT_URL || "*",
   credentials: true,
   methods: "GET,POST,PUT,DELETE",
-  allowedHeaders: "Content-Type, Authorization",
+  allowedHeaders: "Content-Type, Authorization, Accept, X-Requested-With",
 }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // ✅ Handle URL-encoded form data
 
 // ✅ Session Middleware (MongoDB Session Store)
 app.use(session({
@@ -70,7 +71,9 @@ app.use("/profile", profileRoutes);
 app.get("/validate", (req, res, next) => {
   const { name } = req.query;
   if (!name) {
-    return next(new Error("Name parameter is required"));
+    const error = new Error("Name parameter is required");
+    error.status = 400;
+    return next(error);
   }
   res.send(`Hello, ${name}!`);
 });
