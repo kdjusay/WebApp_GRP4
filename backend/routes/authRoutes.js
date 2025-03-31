@@ -1,9 +1,20 @@
 const express = require("express");
+const path = require("path"); // ✅ Added path module
 const { registerUser, loginUser } = require("../routes/authController"); 
 const validateToken = require("../middleware/validateToken"); // Token validation middleware
 const authorizeRoles = require("../middleware/authorizeRoles"); // Role-based access control middleware
 
 const router = express.Router();
+
+// ✅ Default Route (Redirects to Login)
+router.get("/", (req, res) => {
+  res.redirect("/auth/login");
+});
+
+// ✅ Serve Login Page (Frontend)
+router.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/login.html")); // ✅ Ensure this file exists
+});
 
 // ✅ User Registration Route (Public)
 router.post("/register", registerUser);
