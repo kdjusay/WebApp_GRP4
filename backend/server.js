@@ -5,19 +5,15 @@ const mongoose = require("mongoose");
 const path = require("path");
 const app = require("./app");
 
+// ✅ Middleware for JSON Parsing
+app.use(express.json()); // Ensure Express can handle JSON payloads
+
 // ✅ Enable CORS for Frontend
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "*", // Allow frontend domain or all (*)
+  origin: process.env.FRONTEND_URL || "*",
   methods: "GET,POST,PUT,DELETE",
   credentials: true,
 }));
-
-// ✅ Serve Static Frontend Files
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 
 // ✅ MongoDB Connection
 const connectDB = async () => {
@@ -29,6 +25,15 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+// ✅ Serve Static Frontend Files (Only in Production)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "public")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+  });
+}
 
 // ✅ Enforce HTTPS in Production (Render Auto Handles This)
 if (process.env.NODE_ENV === "production") {
